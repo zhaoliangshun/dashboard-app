@@ -1,18 +1,165 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* CSS 三角形函数 */
+
+@layer utilities {
+    /* 基础三角形函数 */
+    .triangle {
+        width: 0;
+        height: 0;
+        border-style: solid;
+    }
+    /* 向上三角形 */
+    .triangle-up {
+        @apply triangle;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent currentColor transparent;
+    }
+    /* 向下三角形 */
+    .triangle-down {
+        @apply triangle;
+        border-width: 10px 10px 0 10px;
+        border-color: currentColor transparent transparent transparent;
+    }
+    /* 向左三角形 */
+    .triangle-left {
+        @apply triangle;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent currentColor transparent transparent;
+    }
+    /* 向右三角形 */
+    .triangle-right {
+        @apply triangle;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent currentColor;
+    }
+    /* 不同尺寸的三角形 */
+    .triangle-sm {
+        border-width: 0 6px 6px 6px;
+    }
+    .triangle-md {
+        border-width: 0 10px 10px 10px;
+    }
+    .triangle-lg {
+        border-width: 0 15px 15px 15px;
+    }
+    .triangle-xl {
+        border-width: 0 20px 20px 20px;
+    }
+    /* 等边三角形 */
+    .triangle-equilateral {
+        @apply triangle;
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 26px solid currentColor;
+    }
+    /* 等腰三角形 */
+    .triangle-isosceles {
+        @apply triangle;
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid currentColor;
+    }
+    /* 高级三角形函数 - 使用CSS自定义属性 */
+    .triangle-advanced {
+        --triangle-size: 10px;
+        --triangle-color: currentColor;
+        --triangle-direction: up;
+        width: 0;
+        height: 0;
+        border-style: solid;
+    }
+    /* 高级三角形方向控制 */
+    .triangle-advanced[data-direction="up"] {
+        border-width: 0 var(--triangle-size) var(--triangle-size) var(--triangle-size);
+        border-color: transparent transparent var(--triangle-color) transparent;
+    }
+    .triangle-advanced[data-direction="down"] {
+        border-width: var(--triangle-size) var(--triangle-size) 0 var(--triangle-size);
+        border-color: var(--triangle-color) transparent transparent transparent;
+    }
+    .triangle-advanced[data-direction="left"] {
+        border-width: var(--triangle-size) var(--triangle-size) var(--triangle-size) 0;
+        border-color: transparent var(--triangle-color) transparent transparent;
+    }
+    .triangle-advanced[data-direction="right"] {
+        border-width: var(--triangle-size) 0 var(--triangle-size) var(--triangle-size);
+        border-color: transparent transparent transparent var(--triangle-color);
+    }
+    /* 高级三角形尺寸预设 */
+    .triangle-advanced[data-size="xs"] {
+        --triangle-size: 4px;
+    }
+    .triangle-advanced[data-size="sm"] {
+        --triangle-size: 6px;
+    }
+    .triangle-advanced[data-size="md"] {
+        --triangle-size: 10px;
+    }
+    .triangle-advanced[data-size="lg"] {
+        --triangle-size: 15px;
+    }
+    .triangle-advanced[data-size="xl"] {
+        --triangle-size: 20px;
+    }
+    .triangle-advanced[data-size="2xl"] {
+        --triangle-size: 30px;
+    }
+    /* 特殊三角形类型 */
+    .triangle-arrow {
+        position: relative;
+        width: 0;
+        height: 0;
+    }
+    .triangle-arrow::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+    }
+    .triangle-arrow[data-direction="up"]::before {
+        border-width: 0 8px 8px 8px;
+        border-color: transparent transparent currentColor transparent;
+    }
+    .triangle-arrow[data-direction="down"]::before {
+        border-width: 8px 8px 0 8px;
+        border-color: currentColor transparent transparent transparent;
+    }
+    /* 渐变三角形 */
+    .triangle-gradient {
+        position: relative;
+        width: 0;
+        height: 0;
+        border-style: solid;
+    }
+    .triangle-gradient[data-direction="up"] {
+        border-width: 0 15px 15px 15px;
+        border-image: linear-gradient(45deg, #3b82f6, #8b5cf6) 1;
+    }
+    .triangle-gradient[data-direction="down"] {
+        border-width: 15px 15px 0 15px;
+        border-image: linear-gradient(45deg, #ef4444, #f97316) 1;
+    }
 }
