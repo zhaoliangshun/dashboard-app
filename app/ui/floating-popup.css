@@ -1,0 +1,188 @@
+/* 浮动弹窗容器 */
+.floating-popup-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* 弹窗内容 */
+.floating-popup {
+  position: absolute;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  min-width: 200px;
+  max-width: 400px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-in-out;
+}
+
+/* 显示状态 */
+.floating-popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 箭头指示器 */
+.floating-popup::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+}
+
+/* 下方弹窗箭头 */
+.floating-popup.bottom::before {
+  border-bottom-color: #e5e7eb;
+  top: -16px;
+}
+
+/* 上方弹窗箭头 */
+.floating-popup.top::before {
+  border-top-color: #e5e7eb;
+  bottom: -16px;
+}
+
+/* 左对齐箭头 */
+.floating-popup.align-left::before {
+  left: 16px;
+}
+
+/* 居中对齐箭头 */
+.floating-popup.align-center::before {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 右对齐箭头 */
+.floating-popup.align-right::before {
+  right: 16px;
+}
+
+/* 位置类 */
+.floating-popup.bottom {
+  top: 100%;
+  margin-top: 8px;
+}
+
+.floating-popup.top {
+  bottom: 100%;
+  margin-bottom: 8px;
+}
+
+/* 对齐类 */
+.floating-popup.align-left {
+  left: 0;
+}
+
+.floating-popup.align-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.floating-popup.align-right {
+  right: 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .floating-popup {
+    min-width: 150px;
+    max-width: 300px;
+  }
+  
+  /* 在小屏幕上强制居中对齐 */
+  .floating-popup.align-left,
+  .floating-popup.align-right {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* 动画变体 */
+.floating-popup.fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.floating-popup.slide-up {
+  animation: slideUp 0.2s ease-in-out;
+}
+
+.floating-popup.scale-in {
+  animation: scaleIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 主题变体 */
+.floating-popup.dark {
+  background: #1f2937;
+  border-color: #374151;
+  color: white;
+}
+
+.floating-popup.dark::before {
+  border-bottom-color: #374151;
+}
+
+.floating-popup.dark.top::before {
+  border-top-color: #374151;
+}
+
+/* 尺寸变体 */
+.floating-popup.small {
+  min-width: 150px;
+  max-width: 250px;
+  padding: 0.75rem;
+}
+
+.floating-popup.large {
+  min-width: 300px;
+  max-width: 500px;
+  padding: 1.5rem;
+}
+
+/* 无边框版本 */
+.floating-popup.no-border {
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.floating-popup.no-border::before {
+  display: none;
+}

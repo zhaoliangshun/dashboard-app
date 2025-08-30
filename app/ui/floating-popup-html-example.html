@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS浮动弹窗示例</title>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .demo-item {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; }
+        
+        .btn-success { background: #10b981; color: white; }
+        .btn-success:hover { background: #059669; }
+        
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-warning:hover { background: #d97706; }
+        
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; }
+
+        /* 浮动弹窗容器 */
+        .floating-popup-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 弹窗内容 */
+        .floating-popup {
+            position: absolute;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            min-width: 200px;
+            max-width: 400px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* 显示状态 */
+        .floating-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* 箭头指示器 */
+        .floating-popup::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+        }
+
+        /* 下方弹窗箭头 */
+        .floating-popup.bottom::before {
+            border-bottom-color: #e5e7eb;
+            top: -16px;
+        }
+
+        /* 上方弹窗箭头 */
+        .floating-popup.top::before {
+            border-top-color: #e5e7eb;
+            bottom: -16px;
+        }
+
+        /* 左对齐箭头 */
+        .floating-popup.align-left::before {
+            left: 16px;
+        }
+
+        /* 居中对齐箭头 */
+        .floating-popup.align-center::before {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 右对齐箭头 */
+        .floating-popup.align-right::before {
+            right: 16px;
+        }
+
+        /* 位置类 */
+        .floating-popup.bottom {
+            top: 100%;
+            margin-top: 8px;
+        }
+
+        .floating-popup.top {
+            bottom: 100%;
+            margin-bottom: 8px;
+        }
+
+        /* 对齐类 */
+        .floating-popup.align-left {
+            left: 0;
+        }
+
+        .floating-popup.align-center {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .floating-popup.align-right {
+            right: 0;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .floating-popup {
+                min-width: 150px;
+                max-width: 300px;
+            }
+            
+            .floating-popup.align-left,
+            .floating-popup.align-right {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* 动画变体 */
+        .floating-popup.fade-in {
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        .floating-popup.slide-up {
+            animation: slideUp 0.2s ease-in-out;
+        }
+
+        .floating-popup.scale-in {
+            animation: scaleIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* 主题变体 */
+        .floating-popup.dark {
+            background: #1f2937;
+            border-color: #374151;
+            color: white;
+        }
+
+        .floating-popup.dark::before {
+            border-bottom-color: #374151;
+        }
+
+        .floating-popup.dark.top::before {
+            border-top-color: #374151;
+        }
+
+        /* 尺寸变体 */
+        .floating-popup.small {
+            min-width: 150px;
+            max-width: 250px;
+            padding: 0.75rem;
+        }
+
+        .floating-popup.large {
+            min-width: 300px;
+            max-width: 500px;
+            padding: 1.5rem;
+        }
+
+        /* 无边框版本 */
+        .floating-popup.no-border {
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .floating-popup.no-border::before {
+            display: none;
+        }
+
+        /* 弹窗内容样式 */
+        .popup-content {
+            margin-bottom: 10px;
+        }
+
+        .popup-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .popup-text {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .popup-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .popup-btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .popup-btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .popup-btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .popup-btn-secondary:hover {
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSS浮动弹窗示例</h1>
+        
+        <!-- 基础对齐演示 -->
+        <div class="demo-section">
+            <h2>基础对齐演示</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>左对齐</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-primary" onclick="togglePopup('popup-left')">
+                            左对齐弹窗
+                        </button>
+                        <div id="popup-left" class="floating-popup bottom align-left">
+                            <div class="popup-content">
+                                <div class="popup-title">左对齐弹窗</div>
+                                <div class="popup-text">这个弹窗会左对齐显示在触发元素下方。</div>
+                                <div class="popup-actions">
+                                    <button class="popup-btn popup-btn-primary">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>居中对齐</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-success" onclick="togglePopup('popup-center')">
+                            居中对齐弹窗
+                        </button>
+                        <div id="popup-center" class="floating-popup bottom align-center">
+                            <div class="popup-content">
+                                <div class="popup-title">居中对齐弹窗</div>
+                                <div class="popup-text">这个弹窗会居中显示在触发元素下方。</div>
+                                <div class="popup-actions">
+                                    <button class="popup-btn popup-btn-primary">确认</button>
+                                    <button class="popup-btn popup-btn-secondary">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>右对齐</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-warning" onclick="togglePopup('popup-right')">
+                            右对齐弹窗
+                        </button>
+                        <div id="popup-right" class="floating-popup bottom align-right">
+                            <div class="popup-content">
+                                <div class="popup-title">右对齐弹窗</div>
+                                <div class="popup-text">这个弹窗会右对齐显示在触发元素下方。</div>
+                                <div class="popup-actions">
+                                    <button class="popup-btn popup-btn-primary">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 位置演示 -->
+        <div class="demo-section">
+            <h2>位置演示</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>上方弹窗</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-danger" onclick="togglePopup('popup-top')">
+                            上方弹窗
+                        </button>
+                        <div id="popup-top" class="floating-popup top align-center">
+                            <div class="popup-content">
+                                <div class="popup-title">上方弹窗</div>
+                                <div class="popup-text">这个弹窗显示在触发元素的上方。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>下方弹窗</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-primary" onclick="togglePopup('popup-bottom')">
+                            下方弹窗
+                        </button>
+                        <div id="popup-bottom" class="floating-popup bottom align-center">
+                            <div class="popup-content">
+                                <div class="popup-title">下方弹窗</div>
+                                <div class="popup-text">这个弹窗显示在触发元素的下方。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 样式变体演示 -->
+        <div class="demo-section">
+            <h2>样式变体演示</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>小尺寸</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-primary" onclick="togglePopup('popup-small')">
+                            小尺寸弹窗
+                        </button>
+                        <div id="popup-small" class="floating-popup bottom align-center small">
+                            <div class="popup-content">
+                                <div class="popup-title">小尺寸</div>
+                                <div class="popup-text">这是一个小尺寸的弹窗。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>大尺寸</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-success" onclick="togglePopup('popup-large')">
+                            大尺寸弹窗
+                        </button>
+                        <div id="popup-large" class="floating-popup bottom align-center large">
+                            <div class="popup-content">
+                                <div class="popup-title">大尺寸弹窗</div>
+                                <div class="popup-text">这是一个大尺寸的弹窗，可以容纳更多内容。</div>
+                                <div class="popup-actions">
+                                    <button class="popup-btn popup-btn-primary">确认</button>
+                                    <button class="popup-btn popup-btn-secondary">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>深色主题</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-warning" onclick="togglePopup('popup-dark')">
+                            深色主题
+                        </button>
+                        <div id="popup-dark" class="floating-popup bottom align-center dark">
+                            <div class="popup-content">
+                                <div class="popup-title">深色主题</div>
+                                <div class="popup-text">这是一个深色主题的弹窗。</div>
+                                <div class="popup-actions">
+                                    <button class="popup-btn popup-btn-primary">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 动画演示 -->
+        <div class="demo-section">
+            <h2>动画演示</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>淡入动画</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-primary" onclick="togglePopupWithAnimation('popup-fade', 'fade-in')">
+                            淡入动画
+                        </button>
+                        <div id="popup-fade" class="floating-popup bottom align-center">
+                            <div class="popup-content">
+                                <div class="popup-title">淡入动画</div>
+                                <div class="popup-text">这个弹窗使用淡入动画效果。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>滑入动画</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-success" onclick="togglePopupWithAnimation('popup-slide', 'slide-up')">
+                            滑入动画
+                        </button>
+                        <div id="popup-slide" class="floating-popup bottom align-center">
+                            <div class="popup-content">
+                                <div class="popup-title">滑入动画</div>
+                                <div class="popup-text">这个弹窗使用滑入动画效果。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>缩放动画</h3>
+                    <div class="floating-popup-container">
+                        <button class="btn btn-warning" onclick="togglePopupWithAnimation('popup-scale', 'scale-in')">
+                            缩放动画
+                        </button>
+                        <div id="popup-scale" class="floating-popup bottom align-center">
+                            <div class="popup-content">
+                                <div class="popup-title">缩放动画</div>
+                                <div class="popup-text">这个弹窗使用缩放动画效果。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换弹窗显示/隐藏
+        function togglePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            popup.classList.toggle('show');
+        }
+
+        // 带动画的弹窗切换
+        function togglePopupWithAnimation(popupId, animationClass) {
+            const popup = document.getElementById(popupId);
+            
+            if (popup.classList.contains('show')) {
+                popup.classList.remove('show', animationClass);
+            } else {
+                popup.classList.add('show', animationClass);
+            }
+        }
+
+        // 点击外部关闭弹窗
+        document.addEventListener('click', function(event) {
+            const popups = document.querySelectorAll('.floating-popup.show');
+            popups.forEach(popup => {
+                const container = popup.parentElement;
+                if (!container.contains(event.target)) {
+                    popup.classList.remove('show', 'fade-in', 'slide-up', 'scale-in');
+                }
+            });
+        });
+
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const popups = document.querySelectorAll('.floating-popup.show');
+                popups.forEach(popup => {
+                    popup.classList.remove('show', 'fade-in', 'slide-up', 'scale-in');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
