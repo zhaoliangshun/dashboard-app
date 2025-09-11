@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下拉菜单示例</title>
+    <link rel="stylesheet" href="dropdown-styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>下拉菜单示例</h1>
+        
+        <!-- 基础下拉菜单 -->
+        <div class="dropdown">
+            <button class="dropdown-btn" id="dropdown1">
+                选择选项
+                <span class="arrow">▼</span>
+            </button>
+            <div class="dropdown-content" id="dropdown-content1">
+                <a href="#" data-value="option1">选项 1</a>
+                <a href="#" data-value="option2">选项 2</a>
+                <a href="#" data-value="option3">选项 3</a>
+                <a href="#" data-value="option4">选项 4</a>
+            </div>
+        </div>
+
+        <!-- 多级下拉菜单 -->
+        <div class="dropdown">
+            <button class="dropdown-btn" id="dropdown2">
+                产品分类
+                <span class="arrow">▼</span>
+            </button>
+            <div class="dropdown-content multi-level" id="dropdown-content2">
+                <div class="dropdown-item has-submenu">
+                    <a href="#" data-value="electronics">电子产品</a>
+                    <div class="submenu">
+                        <a href="#" data-value="phones">手机</a>
+                        <a href="#" data-value="laptops">笔记本电脑</a>
+                        <a href="#" data-value="tablets">平板电脑</a>
+                    </div>
+                </div>
+                <div class="dropdown-item has-submenu">
+                    <a href="#" data-value="clothing">服装</a>
+                    <div class="submenu">
+                        <a href="#" data-value="mens">男装</a>
+                        <a href="#" data-value="womens">女装</a>
+                        <a href="#" data-value="kids">童装</a>
+                    </div>
+                </div>
+                <a href="#" data-value="books">图书</a>
+                <a href="#" data-value="sports">体育用品</a>
+            </div>
+        </div>
+
+        <!-- 搜索下拉菜单 -->
+        <div class="dropdown searchable">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索城市..." id="search-input">
+                <span class="arrow">▼</span>
+            </div>
+            <div class="dropdown-content" id="search-dropdown">
+                <a href="#" data-value="beijing">北京</a>
+                <a href="#" data-value="shanghai">上海</a>
+                <a href="#" data-value="guangzhou">广州</a>
+                <a href="#" data-value="shenzhen">深圳</a>
+                <a href="#" data-value="hangzhou">杭州</a>
+                <a href="#" data-value="nanjing">南京</a>
+                <a href="#" data-value="wuhan">武汉</a>
+                <a href="#" data-value="chengdu">成都</a>
+            </div>
+        </div>
+
+        <!-- 多选下拉菜单 -->
+        <div class="dropdown multi-select">
+            <button class="dropdown-btn" id="multi-dropdown">
+                <span class="selected-text">选择技能</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="dropdown-content" id="multi-dropdown-content">
+                <label class="checkbox-item">
+                    <input type="checkbox" value="javascript" data-label="JavaScript">
+                    <span class="checkmark"></span>
+                    JavaScript
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="python" data-label="Python">
+                    <span class="checkmark"></span>
+                    Python
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="react" data-label="React">
+                    <span class="checkmark"></span>
+                    React
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="vue" data-label="Vue.js">
+                    <span class="checkmark"></span>
+                    Vue.js
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="nodejs" data-label="Node.js">
+                    <span class="checkmark"></span>
+                    Node.js
+                </label>
+            </div>
+        </div>
+
+        <div class="result-display">
+            <h3>选择结果：</h3>
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script src="dropdown-script.js"></script>
+</body>
+</html>

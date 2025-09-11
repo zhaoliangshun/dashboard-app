@@ -1,0 +1,321 @@
+/* 基础样式重置 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+/* 下拉菜单容器 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+    min-width: 200px;
+}
+
+/* 下拉按钮样式 */
+.dropdown-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.dropdown-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.dropdown-btn:active {
+    transform: translateY(0);
+}
+
+/* 箭头样式 */
+.arrow {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.dropdown.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* 下拉内容容器 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    z-index: 1000;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+/* 下拉选项样式 */
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f9ff;
+    color: #667eea;
+    padding-left: 20px;
+}
+
+/* 搜索下拉菜单样式 */
+.searchable .search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 40px 12px 20px;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.searchable .arrow {
+    position: absolute;
+    right: 15px;
+    color: #667eea;
+    pointer-events: none;
+}
+
+/* 多级菜单样式 */
+.dropdown-item {
+    position: relative;
+}
+
+.has-submenu > a::after {
+    content: '▶';
+    float: right;
+    font-size: 12px;
+    color: #999;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    z-index: 1001;
+}
+
+.has-submenu:hover .submenu {
+    display: block;
+    animation: slideRight 0.3s ease;
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.submenu a {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* 多选下拉菜单样式 */
+.multi-select .dropdown-content {
+    padding: 10px 0;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.checkbox-item:hover {
+    background-color: #f8f9ff;
+}
+
+.checkbox-item input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.selected-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 结果显示区域 */
+.result-display {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f8f9ff;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.result-display h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#result {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 隐藏的选项样式 */
+.dropdown-content a.hidden {
+    display: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .dropdown {
+        display: block;
+        margin: 10px 0;
+        width: 100%;
+    }
+    
+    h1 {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+}
+
+/* 动画效果 */
+.dropdown-content a {
+    position: relative;
+    overflow: hidden;
+}
+
+.dropdown-content a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.dropdown-content a:hover::before {
+    left: 100%;
+}
